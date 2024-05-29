@@ -20,28 +20,40 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Yingge&#39;s Blog">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="Topic: general-purpose robot modelWhere: arXivYear: 2024.5.20Who: UCB..Code: https:&#x2F;&#x2F;octo-models.github.io&#x2F; {Octo: An Open-Source Generalist Robot Policy}Summary本文主要贡献是提出了一个开源的通用机器人政策，可以提供语言指令或者目标图像，控">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OCTO">
+<meta property="og:url" content="http://example.com/2024/05/29/OCTO/index.html">
 <meta property="og:site_name" content="Yingge&#39;s Blog">
+<meta property="og:description" content="Topic: general-purpose robot modelWhere: arXivYear: 2024.5.20Who: UCB..Code: https:&#x2F;&#x2F;octo-models.github.io&#x2F; {Octo: An Open-Source Generalist Robot Policy}Summary本文主要贡献是提出了一个开源的通用机器人政策，可以提供语言指令或者目标图像，控">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/OCTO/Untitled.png">
+<meta property="og:image" content="http://example.com/OCTO/Untitled%201.png">
+<meta property="og:image" content="http://example.com/OCTO/Untitled%202.png">
+<meta property="og:image" content="http://example.com/OCTO/Untitled%203.png">
+<meta property="og:image" content="http://example.com/OCTO/Untitled%204.png">
+<meta property="og:image" content="http://example.com/OCTO/Untitled%205.png">
+<meta property="article:published_time" content="2024-05-29T13:25:56.000Z">
+<meta property="article:modified_time" content="2024-05-29T13:25:33.614Z">
 <meta property="article:author" content="Yingge Xie">
+<meta property="article:tag" content="论文阅读">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/OCTO/Untitled.png">
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2024/05/29/OCTO/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Yingge's Blog</title>
+  <title>OCTO | Yingge's Blog</title>
   
 
 
@@ -139,9 +151,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
@@ -157,10 +170,9 @@
       <meta itemprop="name" content="Yingge's Blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/05/29/OCTO/" class="post-title-link" itemprop="url">OCTO</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          OCTO
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -184,7 +196,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Topic: general-purpose robot model<br>Where: arXiv<br>Year: 2024.5.20<br>Who: UCB..<br>Code: <a target="_blank" rel="noopener" href="https://octo-models.github.io/">https://octo-models.github.io/</a></p>
+        <p>Topic: general-purpose robot model<br>Where: arXiv<br>Year: 2024.5.20<br>Who: UCB..<br>Code: <a target="_blank" rel="noopener" href="https://octo-models.github.io/">https://octo-models.github.io/</a></p>
 <h1 id="Octo-An-Open-Source-Generalist-Robot-Policy"><a href="#Octo-An-Open-Source-Generalist-Robot-Policy" class="headerlink" title="{Octo: An Open-Source Generalist Robot Policy}"></a><strong>{Octo: An Open-Source Generalist Robot Policy}</strong></h1><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a><strong>Summary</strong></h2><p>本文主要贡献是提出了一个开源的通用机器人政策，可以提供语言指令或者目标图像，控制机器人完成任务。也可以作为初始化，通过微调，实现对新形态的机器人的控制或完成新的任务。</p>
 <h2 id="Research-Objective-s"><a href="#Research-Objective-s" class="headerlink" title="Research Objective(s)"></a><strong>Research Objective(s)</strong></h2><p>开发开源、广泛适用的机器人操作通用政策</p>
 <h2 id="Background-Problem-Statement"><a href="#Background-Problem-Statement" class="headerlink" title="Background &#x2F; Problem Statement"></a><strong>Background &#x2F; Problem Statement</strong></h2><p>目前常用的机器人学习（robotic learning）是在特定机器人以及特定任务下训练一个政策（policy），但是这样会面临两个问题：一是训练数据难以收集，二是训练出的模型泛化性不好。用不同机器人解决不同任务的数据，来训练一个通用的机器人政策，就可以解决这两个问题。但是可以应用于不同机器人形态，实现各种下游任务的通用机器人模型（general-purpose robot model）是很难的：需要处理不同的机器人具身实体、传感器设置、动作空间、任务规范、环境和计算预算。</p>
@@ -270,86 +282,33 @@
 <p>扩展用于训练 Octo 的数据是一种自然的改进途径。</p>
 <p>未来的工作可能考虑从次优或者在线交互数据中学习、扩展到可执行移动操作的机器人上。</p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" rel="tag"># 论文阅读</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/24/About-me/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Yingge Xie">
-      <meta itemprop="description" content="">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Yingge's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/05/24/About-me/" class="post-title-link" itemprop="url">About me~</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2024-05-24 08:49:56" itemprop="dateCreated datePublished" datetime="2024-05-24T08:49:56+08:00">2024-05-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-05-29 21:26:07" itemprop="dateModified" datetime="2024-05-29T21:26:07+08:00">2024-05-29</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>看到这里的朋友们，你们好！我是一名机器人方向的研0学生。<br>前几天看了一本书，名字叫《暗时间》。书中讲到多写博客激励自己输出和表达对学习具有促进作用，所以我决定在这里发布一些论文阅读笔记、读书笔记、学习经验等等。希望能有效利用好自己的三年研究生时光，不做学术垃圾！<br>但是初出茅庐的我也不保证我写的都是正确的，那就麻烦各位观众自行辨别一下，如果有错误之处或者想和我交流的地方，可以通过我的邮箱联系我：<a href="mailto:&#50;&#48;&#49;&#57;&#51;&#48;&#x32;&#48;&#54;&#x30;&#x30;&#x37;&#48;&#64;&#x77;&#x68;&#x75;&#x2e;&#101;&#x64;&#x75;&#x2e;&#x63;&#x6e;">&#50;&#48;&#49;&#57;&#51;&#48;&#x32;&#48;&#54;&#x30;&#x30;&#x37;&#48;&#64;&#x77;&#x68;&#x75;&#x2e;&#101;&#x64;&#x75;&#x2e;&#x63;&#x6e;</a>（不知道毕业了这个邮箱会不会被收回去）。</p>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/05/24/About-me/" rel="prev" title="About me~">
+      <i class="fa fa-chevron-left"></i> About me~
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -402,6 +361,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Octo-An-Open-Source-Generalist-Robot-Policy"><span class="nav-number">1.</span> <span class="nav-text">{Octo: An Open-Source Generalist Robot Policy}</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary"><span class="nav-number">1.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Research-Objective-s"><span class="nav-number">1.2.</span> <span class="nav-text">Research Objective(s)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Background-Problem-Statement"><span class="nav-number">1.3.</span> <span class="nav-text">Background &#x2F; Problem Statement</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Method-s"><span class="nav-number">1.4.</span> <span class="nav-text">Method(s)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Evaluation"><span class="nav-number">1.5.</span> <span class="nav-text">Evaluation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">1.6.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
