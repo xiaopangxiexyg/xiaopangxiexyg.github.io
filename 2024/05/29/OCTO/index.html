@@ -27,13 +27,18 @@
 <meta property="og:site_name" content="Yingge&#39;s Blog">
 <meta property="og:description" content="Topic: general-purpose robot modelWhere: arXivYear: 2024.5.20Who: UCB..Code: https:&#x2F;&#x2F;octo-models.github.io&#x2F; {Octo: An Open-Source Generalist Robot Policy}Summary本文主要贡献是提出了一个开源的通用机器人政策，可以提供语言指令或者目标图像，控">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2024/05/29/OCTO/Untitled.png">
+<meta property="og:image" content="http://example.com/2024/05/29/OCTO/1.png">
+<meta property="og:image" content="http://example.com/2024/05/29/OCTO/2.png">
+<meta property="og:image" content="http://example.com/2024/05/29/OCTO/3.png">
+<meta property="og:image" content="http://example.com/2024/05/29/OCTO/4.png">
+<meta property="og:image" content="http://example.com/2024/05/29/OCTO/5.png">
+<meta property="og:image" content="http://example.com/2024/05/29/OCTO/6.png">
 <meta property="article:published_time" content="2024-05-29T13:25:56.000Z">
-<meta property="article:modified_time" content="2024-05-29T14:24:16.448Z">
+<meta property="article:modified_time" content="2024-05-29T14:28:57.899Z">
 <meta property="article:author" content="Yingge Xie">
 <meta property="article:tag" content="论文阅读">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2024/05/29/OCTO/Untitled.png">
+<meta name="twitter:image" content="http://example.com/2024/05/29/OCTO/1.png">
 
 <link rel="canonical" href="http://example.com/2024/05/29/OCTO/">
 
@@ -178,7 +183,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2024-05-29 21:25:56 / Modified: 22:24:16" itemprop="dateCreated datePublished" datetime="2024-05-29T21:25:56+08:00">2024-05-29</time>
+              <time title="Created: 2024-05-29 21:25:56 / Modified: 22:28:57" itemprop="dateCreated datePublished" datetime="2024-05-29T21:25:56+08:00">2024-05-29</time>
             </span>
 
           
@@ -202,7 +207,7 @@
 <p>本文提出一种基于transformer架构的模型，它将任意输入标记（从观察和任务创建）映射到输出标记（然后解码为动作），可以在不同机器人和任务创建的数据集上进行训练。该策略就可以接受不同的相机配置，可以控制不同的机器人，并且可以通过语言命令或目标图像进行引导 ，所有这些都只需更改输入模型的标记即可，无需额外训练。通过添加适当的适配器（adapters）并使用小目标域数据集和可以接受的计算资源预算进行微调，该模型可以适应具有新感官输入、动作空间或形态的新机器人设置。</p>
 <h2 id="Method-s"><a href="#Method-s" class="headerlink" title="Method(s)"></a><strong>Method(s)</strong></h2><p>A. 模型结构</p>
 <!-- ![图片](OCTO/Untitled.png) -->
-<img src="/2024/05/29/OCTO/Untitled.png" class="" title="Fig.2">
+<img src="/2024/05/29/OCTO/1.png" class="" title="Fig.2">
 
 <p>octo是一种基于transformer的策略。它包含三个关键部分：</p>
 <p>输入标记（input tokenizers），将语言指令$l$，目的$g$，以及观测序列O1~OH转换成标记（tokens），见Fig2左；</p>
@@ -222,7 +227,7 @@
 <p>C. 训练目标</p>
 <p>我们使用一个条件扩散解码头？（conditional diffusion decoding head）来预测持续的多模态动作分布。在每一次动作预测中，transformer主干只有一次前向传播被执行，在前向传播之后，多步骤的去噪处理完全在小扩散头（small diffusion head）之内执行。为了生成一个动作，我们对一个高斯噪声向量 xK ∼ N （0, I） 进行采样，并使用学习到的去噪网络 εθ(xk, e, k) 进行 K 步去噪，该网络的条件是前一步去噪的输出 xk、步骤索引 k 和transformer动作读出的输出嵌入 e：</p>
 <!-- ![图片](OCTO/Untitled%201.png) -->
-
+<img src="/2024/05/29/OCTO/2.png" class="">
 
 <p>超参数 α、γ 和 σ 与noise schedule相对应，使用标准 DDPM 目标来训练扩散头，即在数据集动作中添加高斯噪声，并训练去噪网络 εθ(xk, e, k) 以重建原始动作。</p>
 <p>我们在微调和更新完整模型期间使用相同的扩散训练目标，该方法优于冻结预训练参数子集的方法。在所有微调实验中，我们都采用相同的方法：给定一个包含大约 100 个轨迹的小型目标域数据集，我们使用余弦衰减学习率和线性预热来进行50k步微调。</p>
@@ -250,14 +255,14 @@
 <p>对于微调，我们发现从头开始训练大型transformer架构会在小型数据集上快速过度拟合。相反，我们使用许多先前作品所采用的规范策略架构从头开始获得了更好的结果：一个带有FiLM语言调节的ResNet视觉编码器，结合一个用扩散目标训练的小型transformer动作解码器。这个结构的实例有28M参数，与RT-1相似。我们将其作为从零开始训练的基线（“ResNet+Transformer Scratch”）。我们还与经过预训练的视觉表征进行比较。一个ViT-B视觉编码器被初始化成VC-1的权重。VC-1是一种先进的视觉表征，在4000小时的视频和ImageNet上预训练并于MLP动作解码器相结合，使用MSE损失（“VC-1”）对整个模型进行训练，以预测专家行动。</p>
 <p>A. Octo 开箱即用地控制多个机器人</p>
 <!-- ![图片](OCTO/Untitled%202.png) -->
-
+<img src="/2024/05/29/OCTO/3.png" class="" title="Fig.5">
 
 <p>从预训练数据集中挑选几个任务进行评估，包括抓取、放置、擦桌子、开关抽屉…评估需要泛化到新的物体位置、照明条件按、背景和干扰物体，在不同的机器人上表现如上图。RT-2-X尚未开源，数据来源是其他论文（WindowX）以及RT-2-X作者的测试结果（RT-1 Robot）。</p>
 <p>此外，RT-1-X、RT-2-X仅支持通过语言指令控制，而Octo还支持通过目标图像控制。使用目标图像条件在WindowX任务中评估Octo，结果成功率比使用语言条件时高出25%，可能因为目标图像提供了更多如何完成任务的信息。</p>
 <p>在 BridgeV2 领域，我们对表VII中的零样本能力进行了细粒度分析；测量数据集中已有的设置以及新环境、场景和技能的性能。虽然 Octo 模型在新物体上取得了巨大成功，但在新场景中零样本性能略有下降，而对于翻转或精确插入等新行为则严重退化。</p>
 <p>B. Octo 实现新领域的数据高效学习</p>
 <!-- ![图片](OCTO/Untitled%203.png) -->
-
+<img src="/2024/05/29/OCTO/4.png" class="" title="TABLE Ⅰ">
 
 <p>实验结果如上图，微调Octo可以获得更好的policy。我们使用相同的配置和超参数在所有评估任务上微调 Octo，说明这些参数是一个好的默认配置。</p>
 <p>结果表明Octo适应于新的观测、动作空间、新的机器人形态。也就是Octo 适用于各种单臂和双臂机器人操作问题，超出了单相机输入和末端执行器位置控制的范围。</p>
@@ -266,7 +271,7 @@
 <p>(1) 模型架构，(2) 训练数据，(3) 训练目标，(4) 模型规模。</p>
 <p>使用OctoSmall model执行以下消融实验。</p>
 <!-- ![图片](OCTO/Untitled%204.png) -->
-
+<img src="/2024/05/29/OCTO/5.png" class="" title="TABLE Ⅱ">
 
 <p>Model architecture:</p>
 <p>以前的基于transformer的策略：用大型的ResNet-style编码器对输入图像进行编码，再用一个相对较小的transformer融合生成的图像特征。</p>
@@ -280,7 +285,7 @@
 <p>由上表，Octo的扩散训练目标显著提高了性能。这可能因为，扩散 head可以模拟多模态动作分布（与 MSE head不同），同时保留连续动作的精度（与离散 head不同）</p>
 <p>Model scale:</p>
 <!-- ![图片](OCTO/Untitled%205.png) -->
-
+<img src="/2024/05/29/OCTO/6.png" class="" title="Fig.6">
 
 <p>Octo-Tiny (10M)、Octo-Small (27M) 和 Octo-Base (93M)</p>
 <p>较大的模型有更好的视觉感知。</p>
