@@ -34,7 +34,7 @@
 <meta property="og:image" content="http://example.com/OCTO/Untitled%204.png">
 <meta property="og:image" content="http://example.com/OCTO/Untitled%205.png">
 <meta property="article:published_time" content="2024-05-29T13:25:56.000Z">
-<meta property="article:modified_time" content="2024-05-29T13:49:40.501Z">
+<meta property="article:modified_time" content="2024-05-29T13:53:16.036Z">
 <meta property="article:author" content="Yingge Xie">
 <meta property="article:tag" content="论文阅读">
 <meta name="twitter:card" content="summary">
@@ -183,7 +183,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2024-05-29 21:25:56 / Modified: 21:49:40" itemprop="dateCreated datePublished" datetime="2024-05-29T21:25:56+08:00">2024-05-29</time>
+              <time title="Created: 2024-05-29 21:25:56 / Modified: 21:53:16" itemprop="dateCreated datePublished" datetime="2024-05-29T21:25:56+08:00">2024-05-29</time>
             </span>
 
           
@@ -199,6 +199,8 @@
       
         <p>Topic: general-purpose robot model<br>Where: arXiv<br>Year: 2024.5.20<br>Who: UCB..<br>Code: <a target="_blank" rel="noopener" href="https://octo-models.github.io/">https://octo-models.github.io/</a></p>
 <h1 id="Octo-An-Open-Source-Generalist-Robot-Policy"><a href="#Octo-An-Open-Source-Generalist-Robot-Policy" class="headerlink" title="{Octo: An Open-Source Generalist Robot Policy}"></a><strong>{Octo: An Open-Source Generalist Robot Policy}</strong></h1><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a><strong>Summary</strong></h2><p>本文主要贡献是提出了一个开源的通用机器人政策，可以提供语言指令或者目标图像，控制机器人完成任务。也可以作为初始化，通过微调，实现对新形态的机器人的控制或完成新的任务。</p>
+<span id="more"></span>
+
 <h2 id="Research-Objective-s"><a href="#Research-Objective-s" class="headerlink" title="Research Objective(s)"></a><strong>Research Objective(s)</strong></h2><p>开发开源、广泛适用的机器人操作通用政策</p>
 <h2 id="Background-Problem-Statement"><a href="#Background-Problem-Statement" class="headerlink" title="Background &#x2F; Problem Statement"></a><strong>Background &#x2F; Problem Statement</strong></h2><p>目前常用的机器人学习（robotic learning）是在特定机器人以及特定任务下训练一个政策（policy），但是这样会面临两个问题：一是训练数据难以收集，二是训练出的模型泛化性不好。用不同机器人解决不同任务的数据，来训练一个通用的机器人政策，就可以解决这两个问题。但是可以应用于不同机器人形态，实现各种下游任务的通用机器人模型（general-purpose robot model）是很难的：需要处理不同的机器人具身实体、传感器设置、动作空间、任务规范、环境和计算预算。</p>
 <p>目前已经有很多工作在开发一个通用机器人政策（generalist robot policies，GRPs），如GNM、RoboCat、RT-X，但是它们通常将下游用户限制为预定义且通常具有限制性的输入观察集，例如单个摄像机流；他们缺乏对新领域进行有效微调的支持；重要的是，这些模型中最大的模型并不向公众开放。</p>
