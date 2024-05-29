@@ -171,7 +171,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2024-05-29 21:25:56 / Modified: 21:25:33" itemprop="dateCreated datePublished" datetime="2024-05-29T21:25:56+08:00">2024-05-29</time>
+              <time title="Created: 2024-05-29 21:25:56 / Modified: 21:49:40" itemprop="dateCreated datePublished" datetime="2024-05-29T21:25:56+08:00">2024-05-29</time>
             </span>
 
           
@@ -192,7 +192,7 @@
 <p>目前已经有很多工作在开发一个通用机器人政策（generalist robot policies，GRPs），如GNM、RoboCat、RT-X，但是它们通常将下游用户限制为预定义且通常具有限制性的输入观察集，例如单个摄像机流；他们缺乏对新领域进行有效微调的支持；重要的是，这些模型中最大的模型并不向公众开放。</p>
 <p>本文提出一种基于transformer架构的模型，它将任意输入标记（从观察和任务创建）映射到输出标记（然后解码为动作），可以在不同机器人和任务创建的数据集上进行训练。该策略就可以接受不同的相机配置，可以控制不同的机器人，并且可以通过语言命令或目标图像进行引导 ，所有这些都只需更改输入模型的标记即可，无需额外训练。通过添加适当的适配器（adapters）并使用小目标域数据集和可以接受的计算资源预算进行微调，该模型可以适应具有新感官输入、动作空间或形态的新机器人设置。</p>
 <h2 id="Method-s"><a href="#Method-s" class="headerlink" title="Method(s)"></a><strong>Method(s)</strong></h2><p>A. 模型结构</p>
-<p><img src="/OCTO/Untitled.png" alt="Untitled"></p>
+<p><img src="/OCTO/Untitled.png" alt="图片"></p>
 <p>octo是一种基于transformer的策略。它包含三个关键部分：</p>
 <p>输入标记（input tokenizers），将语言指令$l$，目的$g$，以及观测序列O1~OH转换成标记（tokens），见Fig2左；</p>
 <p>一个transformer结构，处理这些标记并生成嵌入（embeddings）；</p>
@@ -210,7 +210,7 @@
 <p>首先移除了一些数据：所有没有图像流、不使用末端执行器控制、重复、图像分辨率低或包含过于小众的任务。基于任务与环境对余下的数据进行分类，分成“更多样化”和“不太多样化”，然后在训练期间将更多样化的数据集的权重加倍，并降低具有重复情节的数据集的权重。最后，我们用零填充缺失的相机通道，并统一了夹爪的动作空间。<strong>未来的工作应该对数据混合物质量进行更彻底的分析，以预训练通用机器人策略。</strong></p>
 <p>C. 训练目标</p>
 <p>我们使用一个条件扩散解码头？（conditional diffusion decoding head）来预测持续的多模态动作分布。在每一次动作预测中，transformer主干只有一次前向传播被执行，在前向传播之后，多步骤的去噪处理完全在小扩散头（small diffusion head）之内执行。为了生成一个动作，我们对一个高斯噪声向量 xK ∼ N （0, I） 进行采样，并使用学习到的去噪网络 εθ(xk, e, k) 进行 K 步去噪，该网络的条件是前一步去噪的输出 xk、步骤索引 k 和transformer动作读出的输出嵌入 e：</p>
-<p><img src="/OCTO/Untitled%201.png" alt="Untitled"></p>
+<p><img src="/OCTO/Untitled%201.png" alt="图片"></p>
 <p>超参数 α、γ 和 σ 与noise schedule相对应，使用标准 DDPM 目标来训练扩散头，即在数据集动作中添加高斯噪声，并训练去噪网络 εθ(xk, e, k) 以重建原始动作。</p>
 <p>我们在微调和更新完整模型期间使用相同的扩散训练目标，该方法优于冻结预训练参数子集的方法。在所有微调实验中，我们都采用相同的方法：给定一个包含大约 100 个轨迹的小型目标域数据集，我们使用余弦衰减学习率和线性预热来进行50k步微调。</p>
 <p>D. 训练细节</p>
@@ -236,19 +236,19 @@
 <p>在目标领域演示数据上从头开始训练；使用预训练的视觉表征。</p>
 <p>对于微调，我们发现从头开始训练大型transformer架构会在小型数据集上快速过度拟合。相反，我们使用许多先前作品所采用的规范策略架构从头开始获得了更好的结果：一个带有FiLM语言调节的ResNet视觉编码器，结合一个用扩散目标训练的小型transformer动作解码器。这个结构的实例有28M参数，与RT-1相似。我们将其作为从零开始训练的基线（“ResNet+Transformer Scratch”）。我们还与经过预训练的视觉表征进行比较。一个ViT-B视觉编码器被初始化成VC-1的权重。VC-1是一种先进的视觉表征，在4000小时的视频和ImageNet上预训练并于MLP动作解码器相结合，使用MSE损失（“VC-1”）对整个模型进行训练，以预测专家行动。</p>
 <p>A. Octo 开箱即用地控制多个机器人</p>
-<p><img src="/OCTO/Untitled%202.png" alt="Untitled"></p>
+<p><img src="/OCTO/Untitled%202.png" alt="图片"></p>
 <p>从预训练数据集中挑选几个任务进行评估，包括抓取、放置、擦桌子、开关抽屉…评估需要泛化到新的物体位置、照明条件按、背景和干扰物体，在不同的机器人上表现如上图。RT-2-X尚未开源，数据来源是其他论文（WindowX）以及RT-2-X作者的测试结果（RT-1 Robot）。</p>
 <p>此外，RT-1-X、RT-2-X仅支持通过语言指令控制，而Octo还支持通过目标图像控制。使用目标图像条件在WindowX任务中评估Octo，结果成功率比使用语言条件时高出25%，可能因为目标图像提供了更多如何完成任务的信息。</p>
 <p>在 BridgeV2 领域，我们对表VII中的零样本能力进行了细粒度分析；测量数据集中已有的设置以及新环境、场景和技能的性能。虽然 Octo 模型在新物体上取得了巨大成功，但在新场景中零样本性能略有下降，而对于翻转或精确插入等新行为则严重退化。</p>
 <p>B. Octo 实现新领域的数据高效学习</p>
-<p><img src="/OCTO/Untitled%203.png" alt="Untitled"></p>
+<p><img src="/OCTO/Untitled%203.png" alt="图片"></p>
 <p>实验结果如上图，微调Octo可以获得更好的policy。我们使用相同的配置和超参数在所有评估任务上微调 Octo，说明这些参数是一个好的默认配置。</p>
 <p>结果表明Octo适应于新的观测、动作空间、新的机器人形态。也就是Octo 适用于各种单臂和双臂机器人操作问题，超出了单相机输入和末端执行器位置控制的范围。</p>
 <p>C. 通用机器人政策训练的设计决策</p>
 <p>分析不同设计决策对 Octo 策略性能的影响：</p>
 <p>(1) 模型架构，(2) 训练数据，(3) 训练目标，(4) 模型规模。</p>
 <p>使用OctoSmall model执行以下消融实验。</p>
-<p><img src="/OCTO/Untitled%204.png" alt="Untitled"></p>
+<p><img src="/OCTO/Untitled%204.png" alt="图片"></p>
 <p>Model architecture:</p>
 <p>以前的基于transformer的策略：用大型的ResNet-style编码器对输入图像进行编码，再用一个相对较小的transformer融合生成的图像特征。</p>
 <p>我们的方法：选择transformer-first架构，使用非常浅的 CNN patch 编码器，并将大部分参数和 FLOPS 集中在 Transformer 主干中，类似于规范的视觉 Transformer 架构</p>
@@ -260,7 +260,7 @@
 <p>比较了Octo的扩散解码训练目标与MSE损失、交叉熵损失</p>
 <p>由上表，Octo的扩散训练目标显著提高了性能。这可能因为，扩散 head可以模拟多模态动作分布（与 MSE head不同），同时保留连续动作的精度（与离散 head不同）</p>
 <p>Model scale:</p>
-<p><img src="/OCTO/Untitled%205.png" alt="Untitled"></p>
+<p><img src="/OCTO/Untitled%205.png" alt="图片"></p>
 <p>Octo-Tiny (10M)、Octo-Small (27M) 和 Octo-Base (93M)</p>
 <p>较大的模型有更好的视觉感知。</p>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a><strong>Conclusion</strong></h2><p>本文提出了一个基于transformer的policy，在迄今为止最大的数据集上预训练。能够对新的输入和动作空间进行微调，成为解决各种机器人控制问题的初始化工具。</p>
